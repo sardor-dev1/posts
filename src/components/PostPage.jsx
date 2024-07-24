@@ -1,20 +1,23 @@
-import { useEffect, useState } from "react";
-import { useParams, Link, useNavigate } from "react-router-dom";
 
-const PostPage = ({ setPosts, posts, handleDelete, handleEdit }) => {
+import { useEffect, useState } from "react";
+import { useParams, Link } from "react-router-dom";
+import { format } from "date-fns";
+
+const PostPage = ({ setPosts, posts, handleDelete }) => {
   const { id } = useParams();
   const post = posts.find((post) => post.id.toString() === id);
   const [title, setTitle] = useState("");
-  const [body, setBody] = useState();
-  const [edit, setEdit] = useState();
+  const [body, setBody] = useState("");
+  const [edit, setEdit] = useState(false);
 
-  function handleEdit(id) {
+  const handleEdit = (id) => {
     const editPosts = posts.map((post) => {
       if (post.id === id) {
         return {
           ...post,
           title,
           body,
+          editDatetime: format(new Date(), "MMMM dd, yyyy pp"),
         };
       } else {
         return post;
@@ -22,7 +25,7 @@ const PostPage = ({ setPosts, posts, handleDelete, handleEdit }) => {
     });
     setPosts(editPosts);
     setEdit(false);
-  }
+  };
 
   useEffect(() => {
     if (post) {
@@ -48,6 +51,9 @@ const PostPage = ({ setPosts, posts, handleDelete, handleEdit }) => {
             )}
 
             <p className="postDate">{post.datetime}</p>
+            {post.editDatetime && (
+              <p className="editDate">Edited on: {post.editDatetime}</p>
+            )}
             {edit ? (
               <textarea
                 className="title-input"

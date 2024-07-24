@@ -17,24 +17,28 @@ function App() {
       title: "My First Post",
       datetime: "July 01, 2021 11:17:36 AM",
       body: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis consequatur expedita, assumenda similique non optio! Modi nesciunt excepturi corrupti atque blanditiis quo nobis, non optio quae possimus illum exercitationem ipsa!",
+      editDatetime: "",
     },
     {
       id: 2,
       title: "My 2nd Post",
       datetime: "July 01, 2021 11:17:36 AM",
       body: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis consequatur expedita, assumenda similique non optio! Modi nesciunt excepturi corrupti atque blanditiis quo nobis, non optio quae possimus illum exercitationem ipsa!",
+      editDatetime: "",
     },
     {
       id: 3,
       title: "My 3rd Post",
       datetime: "July 01, 2021 11:17:36 AM",
       body: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis consequatur expedita, assumenda similique non optio! Modi nesciunt excepturi corrupti atque blanditiis quo nobis, non optio quae possimus illum exercitationem ipsa!",
+      editDatetime: "",
     },
     {
       id: 4,
       title: "My Fourth Post",
       datetime: "July 01, 2021 11:17:36 AM",
       body: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis consequatur expedita, assumenda similique non optio! Modi nesciunt excepturi corrupti atque blanditiis quo nobis, non optio quae possimus illum exercitationem ipsa!",
+      editDatetime: "",
     },
   ]);
   const [search, setSearch] = useState("");
@@ -62,7 +66,13 @@ function App() {
     e.preventDefault();
     const id = posts.length ? posts[posts.length - 1].id + 1 : 1;
     const datetime = format(new Date(), "MMMM dd, yyyy pp");
-    const newPost = { id, title: postTitle, datetime, body: postBody };
+    const newPost = {
+      id,
+      title: postTitle,
+      datetime,
+      body: postBody,
+      editDatetime: "",
+    };
 
     setPosts([...posts, newPost]);
     setPostTitle("");
@@ -74,10 +84,6 @@ function App() {
     const updatedPosts = posts.filter((post) => post.id !== id);
     setPosts(updatedPosts);
     navigate("/");
-  };
-
-  const handleEdit = () => {
-    
   };
 
   return (
@@ -102,7 +108,6 @@ function App() {
           path="/post/:id"
           element={
             <PostPage
-              handleEdit={handleEdit}
               handleDelete={handleDelete}
               posts={posts}
               setPosts={setPosts}
