@@ -83,7 +83,7 @@ body {
   padding: 1rem 0 0 0.75rem;
 }
 
-.searchForm input[type="text"] {
+.searchForm input[type="text"] , .title-input {
   font-family: 'Open Sans', sans-serif;
   width: 100%;
   min-height: 48px;
@@ -91,6 +91,10 @@ body {
   padding: 0.25rem;
   border-radius: 0.25rem;
   outline: none;
+}
+
+textarea {
+  resize: vertical;
 }
 
 .searchForm label {

@@ -1,20 +1,76 @@
-import { useParams, Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useParams, Link, useNavigate } from "react-router-dom";
 
-const PostPage = ({ posts, handleDelete, handleEdit }) => {
+const PostPage = ({ setPosts, posts, handleDelete, handleEdit }) => {
   const { id } = useParams();
   const post = posts.find((post) => post.id.toString() === id);
+  const [title, setTitle] = useState("");
+  const [body, setBody] = useState();
+  const [edit, setEdit] = useState();
+
+  function handleEdit(id) {
+    const editPosts = posts.map((post) => {
+      if (post.id === id) {
+        return {
+          ...post,
+          title,
+          body,
+        };
+      } else {
+        return post;
+      }
+    });
+    setPosts(editPosts);
+    setEdit(false);
+  }
+
+  useEffect(() => {
+    if (post) {
+      setTitle(post.title);
+      setBody(post.body);
+    }
+  }, [post]);
 
   return (
     <main className="PostPage">
       <article className="post">
         {post && (
           <>
-            <h2>{post.title}</h2>
+            {edit ? (
+              <input
+                className="title-input"
+                type="text"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+              />
+            ) : (
+              <h2>{post.title}</h2>
+            )}
+
             <p className="postDate">{post.datetime}</p>
-            <p className="postBody">{post.body}</p>
+            {edit ? (
+              <textarea
+                className="title-input"
+                rows={5}
+                value={body}
+                onChange={(e) => setBody(e.target.value)}
+              ></textarea>
+            ) : (
+              <p className="postBody">{post.body}</p>
+            )}
             <div className="postButtons">
               <button onClick={() => handleDelete(post.id)}>Delete Post</button>
-              <button onClick={() => handleEdit(post.id)}>Update Post</button>
+              <button
+                style={{ backgroundColor: edit ? "green" : "blue" }}
+                onClick={() => {
+                  setEdit(!edit);
+                  if (edit) {
+                    handleEdit(post.id);
+                  }
+                }}
+              >
+                {edit ? "Save" : "Edit"}
+              </button>
             </div>
           </>
         )}
@@ -32,4 +88,4 @@ const PostPage = ({ posts, handleDelete, handleEdit }) => {
   );
 };
 
-export default PostPage
+export default PostPage;

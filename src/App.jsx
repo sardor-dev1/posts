@@ -105,6 +105,7 @@ function App() {
               handleEdit={handleEdit}
               handleDelete={handleDelete}
               posts={posts}
+              setPosts={setPosts}
             />
           }
         />
